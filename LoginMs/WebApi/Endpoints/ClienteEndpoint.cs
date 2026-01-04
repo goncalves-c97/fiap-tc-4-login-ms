@@ -43,6 +43,17 @@ namespace WebApi.Endpoints
             return Ok(cliente);
         }
 
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            Cliente? cliente = await ClienteController.GetById(_dbConnection, id);
+
+            if (cliente == null)
+                return NotFound("Cliente não encontrado");
+
+            return Ok(cliente);
+        }
+
         [HttpPost("InsertNew")]
         public async Task<IActionResult> InsertNew([FromBody] ClienteDto clienteDto)
         {

@@ -68,5 +68,11 @@ namespace Core.Controllers
             ClienteGateway gateway = new(dbConnection);
             await ClienteUseCases.DeleteAll(gateway);
         }
+
+        public static async Task<Cliente?> GetById(IDbConnection dbConnection, int id)
+        {
+            ClienteGateway gateway = new(dbConnection);
+            return await ClienteUseCases.GetById(gateway, id);
+        }
     }
 }

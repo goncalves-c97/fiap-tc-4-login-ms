@@ -128,5 +128,13 @@ namespace Core.UseCases
         {
             await clienteGateway.DeleteAll();
         }
+
+        public static async Task<Cliente?> GetById(ClienteGateway gateway, int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("id não informado ou inválido!");
+
+            return await gateway.GetById(id);
+        }
     }
 }

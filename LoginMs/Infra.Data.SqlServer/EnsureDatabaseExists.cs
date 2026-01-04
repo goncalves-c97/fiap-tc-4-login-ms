@@ -10,7 +10,8 @@ namespace Infra.Data.SqlServer
 
             var builder = new SqlConnectionStringBuilder(connectionString)
             {
-                InitialCatalog = "master"
+                InitialCatalog = "master",
+                CommandTimeout = 5
             };
 
             using (var connection = new SqlConnection(builder.ToString()))
@@ -20,7 +21,25 @@ namespace Infra.Data.SqlServer
                 var checkDbCmd = connection.CreateCommand();
                 checkDbCmd.CommandText = $@"
                     SELECT COUNT(*) FROM sys.databases WHERE name = N'{dbName}'";
-                dbExists = (int)checkDbCmd.ExecuteScalar() > 0;
+
+                byte tries = 0;
+
+                do
+                {
+                    try
+                    {
+                        dbExists = (int)checkDbCmd.ExecuteScalar() > 0;
+                        break;
+                    }
+                    catch(Exception ex)
+                    {
+                        tries++;
+                        Console.WriteLine($"Attempt {tries} - Error checking database existence: {ex.Message}");
+
+                        if (tries == 3)
+                            throw new Exception("Não foi possível verificar se a base de dados existe");
+                    }
+                } while (tries < 3);
 
                 if (!dbExists)
                 {
