@@ -29,14 +29,6 @@ namespace Infra.Data.SqlServer
 
                 dbExists = (int)checkCmd.ExecuteScalar() == 1;
 
-                //if (dbExists)
-                //{
-                //    using var createCmd = connection.CreateCommand();
-                //    createCmd.CommandText = "DROP DATABASE AuthDb;";
-                //    createCmd.ExecuteNonQuery();
-                //    dbExists = false;
-                //}
-
                 if (!dbExists)
                 {
                     using var createCmd = connection.CreateCommand();

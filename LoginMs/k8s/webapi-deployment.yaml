@@ -1,25 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapi-deployment
+  name: login-ms-webapi-deployment
+  namespace: login-ms
   labels:
-    app: webapi
+    app: login-ms-webapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webapi
+      app: login-ms-webapi
   template:
     metadata:
       labels:
-        app: webapi
+        app: login-ms-webapi
     spec:
-      # initContainers:
-      # - name: wait-for-sqlserver
-      #   image: busybox:1.28
-      #   command: ['sh', '-c', 'until nc -z sqlserver 1433; do echo waiting for sqlserver; sleep 2; done;']
       containers:
-      - name: webapi
+      - name: login-ms-webapi
         image: goncalvesc97/fiap-tc-4-login-ms:1.0
         imagePullPolicy: Always
         ports:

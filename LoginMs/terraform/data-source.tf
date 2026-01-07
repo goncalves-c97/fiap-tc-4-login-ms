@@ -19,13 +19,3 @@ data "terraform_remote_state" "network" {
     region = "us-east-1"
   }
 }
-
-# data "terraform_remote_state" "database" {
-#   backend = "s3"
-
-#   config = {
-#     bucket = "fiap-techchallenge-terraform-states"
-#     key    = "infra-db/terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
