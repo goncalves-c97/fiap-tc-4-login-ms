@@ -3,11 +3,10 @@ kind: Service
 metadata:
   name: webapi-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: webapi
   ports:
-  - protocol: TCP
-    port: 8085
-    targetPort: 5000
-    nodePort: 30085
+    - protocol: TCP
+      port: 8085
+      targetPort: 5000
