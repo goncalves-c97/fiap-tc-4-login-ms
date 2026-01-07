@@ -6,43 +6,43 @@ namespace Infra.Data.SqlServer
     {
         public static bool EnsureDatabaseExists(string connectionString, string dbName)
         {
+            Console.WriteLine("Verificando existência da base de dados...");
+
             bool dbExists = false;
 
             var builder = new SqlConnectionStringBuilder(connectionString)
             {
                 InitialCatalog = "master",
-                CommandTimeout = 5
+                CommandTimeout = 60
             };
 
             using (var connection = new SqlConnection(builder.ToString()))
             {
                 connection.Open();
 
-                var checkDbCmd = connection.CreateCommand();
-                checkDbCmd.CommandText = $@"
-                    SELECT COUNT(*) FROM sys.databases WHERE name = N'{dbName}'";
+                using var checkCmd = connection.CreateCommand();
+                checkCmd.CommandText = @"
+                    SELECT CASE 
+                        WHEN DB_ID('AuthDb') IS NULL THEN 0 
+                        ELSE 1 
+                    END";
 
-                byte tries = 0;
+                dbExists = (int)checkCmd.ExecuteScalar() == 1;
 
-                do
-                {
-                    try
-                    {
-                        dbExists = (int)checkDbCmd.ExecuteScalar() > 0;
-                        break;
-                    }
-                    catch(Exception ex)
-                    {
-                        tries++;
-                        Console.WriteLine($"Attempt {tries} - Error checking database existence: {ex.Message}");
-
-                        if (tries == 3)
-                            throw new Exception("Não foi possível verificar se a base de dados existe");
-                    }
-                } while (tries < 3);
+                //if (dbExists)
+                //{
+                //    using var createCmd = connection.CreateCommand();
+                //    createCmd.CommandText = "DROP DATABASE AuthDb;";
+                //    createCmd.ExecuteNonQuery();
+                //    dbExists = false;
+                //}
 
                 if (!dbExists)
                 {
+                    using var createCmd = connection.CreateCommand();
+                    createCmd.CommandText = "CREATE DATABASE AuthDb;";
+                    createCmd.ExecuteNonQuery();
+
                     string assemblyDir = Path.GetDirectoryName(typeof(DatabaseInitializer).Assembly.Location)!;
                     string scriptPath = Path.Combine(assemblyDir, "schema.sql");
                     string script = File.ReadAllText(scriptPath);
