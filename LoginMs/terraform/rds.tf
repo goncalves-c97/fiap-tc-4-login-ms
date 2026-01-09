@@ -1,12 +1,12 @@
 resource "aws_db_instance" "sqlserver_login_ms" {
-  identifier = "goncalvesc97-fiap-tc-4-login-ms-db"
-  engine = "sqlserver-ex"
-  instance_class    = "db.t3.micro"
-  allocated_storage = 20
-  username = "admin"
-  password = var.db_password
-  db_subnet_group_name  = data.aws_db_subnet_group.rds_subnet_group.name
-  skip_final_snapshot = true
+  identifier           = "goncalvesc97-fiap-tc-4-login-ms-db"
+  engine               = "sqlserver-ex"
+  instance_class       = "db.t3.micro"
+  allocated_storage    = 20
+  username             = "admin"
+  password             = var.db_password
+  db_subnet_group_name = data.aws_db_subnet_group.rds_subnet_group.name
+  skip_final_snapshot  = true
 
   # Conecta ao Security Group criado
   vpc_security_group_ids = [data.terraform_remote_state.network.outputs.rds_security_group_id]

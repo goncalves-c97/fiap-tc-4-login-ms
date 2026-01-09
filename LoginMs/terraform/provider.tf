@@ -10,6 +10,6 @@ terraform {
 }
 
 provider "aws" {
-  region = var.preferred_region
+  region  = var.preferred_region
   profile = var.aws_profile
 }
