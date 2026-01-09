@@ -5,25 +5,25 @@ on:
     branches: [ "production" ]
     paths:
       - ".github/workflows/**"
-      - "terraform/**"
-      - "WebApi/**"
-      - "Core/**"
-      - "Infra.*/**"
-      - "Test/**"
-      - "Dockerfile"
-      - "LoginMs.sln"
+      - "LoginMs/terraform/**"
+      - "LoginMs/WebApi/**"
+      - "LoginMs/Core/**"
+      - "LoginMs/Infra.*/**"
+      - "LoginMs/Test/**"
+      - "LoginMs/Dockerfile"
+      - "LoginMs/LoginMs.sln"
 
   push:
     branches: [ "production" ]
     paths:
       - ".github/workflows/**"
-      - "terraform/**"
-      - "WebApi/**"
-      - "Core/**"
-      - "Infra.*/**"
-      - "Test/**"
-      - "Dockerfile"
-      - "LoginMs.sln"
+      - "LoginMs/terraform/**"
+      - "LoginMs/WebApi/**"
+      - "LoginMs/Core/**"
+      - "LoginMs/Infra.*/**"
+      - "LoginMs/Test/**"
+      - "LoginMs/Dockerfile"
+      - "LoginMs/LoginMs.sln"
 
 jobs:
 
