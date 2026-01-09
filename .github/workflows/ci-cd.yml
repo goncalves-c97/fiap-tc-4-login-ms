@@ -112,12 +112,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=goncalvesc97_fiap-tc-4-login-ms
-            -Dsonar.organization=goncalvesc97
+            -Dsonar.projectKey=goncalves-c97_fiap-tc-4-login-ms
+            -Dsonar.organization=goncalves-c97
             -Dsonar.projectBaseDir=LoginMs
             -Dsonar.sources=WebApi,Core
             -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
-
 
   # =========================
   # DOCKER (só no merge)
