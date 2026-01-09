@@ -36,7 +36,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: terraform
+        working-directory: LoginMs/terraform
 
     steps:
       - name: Checkout
@@ -86,13 +86,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore
-        run: dotnet restore LoginMs.sln
+        run: dotnet restore LoginMs/LoginMs.sln
 
       - name: Build
-        run: dotnet build LoginMs.sln --configuration Release --no-restore
+        run: dotnet build LoginMs/LoginMs.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test LoginMs.sln --configuration Release --no-build
+        run: dotnet test LoginMs/LoginMs.sln --configuration Release --no-build
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
