@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [ "production" ]
     paths:
+      - ".github/workflows/**"
       - "terraform/**"
       - "WebApi/**"
       - "Core/**"
@@ -15,6 +16,7 @@ on:
   push:
     branches: [ "production" ]
     paths:
+      - ".github/workflows/**"
       - "terraform/**"
       - "WebApi/**"
       - "Core/**"
