@@ -1,4 +1,4 @@
-name: CI/CD - Infra + API
+name: CI/CD - Terraform + SonarQube + Dockerhub
 
 on:
   pull_request:
