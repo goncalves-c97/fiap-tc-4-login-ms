@@ -69,7 +69,7 @@ namespace WebApi.Endpoints
                 {
                     await ColaboradorController.InsertNewColaborador(_dbConnection, funcaoColaborador, colaborador);
                 }
-                catch(ArgumentException ex)
+                catch (ArgumentException ex)
                 {
                     if (ex.Message.Contains("Email já cadastrado"))
                         continue; // Ignore if the email is already registered

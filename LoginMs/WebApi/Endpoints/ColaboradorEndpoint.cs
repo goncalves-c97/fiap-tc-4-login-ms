@@ -19,7 +19,7 @@ namespace WebApi.Endpoints
 
         [Authorize(Roles = UsuarioRoles.Administrador)]
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll() 
+        public async Task<IActionResult> GetAll()
         {
             IEnumerable<Colaborador> colaboradores = await ColaboradorController.GetAll(_dbConnection);
             return Ok(colaboradores);
@@ -30,7 +30,7 @@ namespace WebApi.Endpoints
         public async Task<IActionResult> GetByEmailAndSenha(string email, string senha)
         {
             Colaborador? colaborador = await ColaboradorController.GetByEmailAndSenha(_dbConnection, email, senha);
-            
+
             if (colaborador == null)
                 return NotFound("Colaborador não encontrado.");
 

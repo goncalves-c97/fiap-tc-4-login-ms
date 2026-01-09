@@ -44,7 +44,7 @@ namespace Core.UseCases
 
         public static async Task<string> GenerateClienteTokenByEmailCliente(IClienteGateway clienteGateway, string secret, string email)
         {
-            Cliente? cliente = await GetByEmail(clienteGateway, email) 
+            Cliente? cliente = await GetByEmail(clienteGateway, email)
                 ?? throw new ArgumentException("Cliente não encontrado com o email informado.", nameof(email));
 
             return await GenerateClienteToken(secret, cliente);
@@ -52,7 +52,7 @@ namespace Core.UseCases
 
         public static async Task<string> GenerateClienteTokenByCpfCliente(IClienteGateway clienteGateway, string secret, string cpf)
         {
-            Cliente? cliente = await GetByCpf(clienteGateway, cpf) 
+            Cliente? cliente = await GetByCpf(clienteGateway, cpf)
                 ?? throw new ArgumentException("Cliente não encontrado com o CPF informado.", nameof(cpf));
 
             return await GenerateClienteToken(secret, cliente);
@@ -60,7 +60,7 @@ namespace Core.UseCases
 
         public static async Task<string> GenerateClienteAnonimoToken(IClienteGateway clienteGateway, string secret)
         {
-            Cliente cliente = await GetNewAnonymous(clienteGateway) 
+            Cliente cliente = await GetNewAnonymous(clienteGateway)
                 ?? throw new ArgumentException("Não foi possível criar um cliente anônimo.");
 
             JwtSecurityTokenHandler tokenHandler = new();

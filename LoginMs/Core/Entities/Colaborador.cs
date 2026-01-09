@@ -30,7 +30,7 @@ public class Colaborador : ValidatorClass
 
     protected override void Validate()
     {
-        PositiveValueValidation(nameof(IdFuncao), IdFuncao);
+        PositiveValueValidation(nameof(IdFuncao), IdFuncao, true);
         NotEmptyStringValidation(nameof(Nome), Nome);
         NotEmptyStringValidation(nameof(Email), Email);
         NotEmptyStringValidation(nameof(Senha), Senha);

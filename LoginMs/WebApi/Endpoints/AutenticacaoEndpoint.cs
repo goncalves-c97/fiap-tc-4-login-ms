@@ -14,14 +14,15 @@ namespace WebApi.Endpoints
         private readonly IDbConnection _dbConnection;
         private readonly string _jwtSecret;
 
-        public AutenticacaoEndpoint(IDbConnection dbConnection, IConfiguration configuration) {
+        public AutenticacaoEndpoint(IDbConnection dbConnection, IConfiguration configuration)
+        {
             _dbConnection = dbConnection;
 
             string? jwtSecret = configuration["API_AUTHENTICATION_KEY"];
 
             if (string.IsNullOrEmpty(jwtSecret))
                 throw new ArgumentException("A chave de autenticação da API não está configurada no appsettings.json.");
-            
+
             _jwtSecret = jwtSecret;
         }
 
@@ -33,7 +34,7 @@ namespace WebApi.Endpoints
 
             string token = await ColaboradorController.GenerateColaboradorToken(_dbConnection, _jwtSecret, colaboradorDto);
 
-            if(string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
                 return Unauthorized();
             else
                 return Ok(new { Token = token });

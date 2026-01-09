@@ -15,7 +15,7 @@ namespace Core.UseCases
     {
         public static async Task<string> GenerateColaboradorToken(IColaboradorGateway colaboradorGateway, string secret, ColaboradorDto colaboradorDto)
         {
-            Colaborador? colaborador = await GetByEmailAndSenha(colaboradorGateway, colaboradorDto.Email, colaboradorDto.Senha) 
+            Colaborador? colaborador = await GetByEmailAndSenha(colaboradorGateway, colaboradorDto.Email, colaboradorDto.Senha)
                 ?? throw new ArgumentException("Colaborador não encontrado com o email e senha informados.");
 
             JwtSecurityTokenHandler tokenHandler = new();
@@ -63,7 +63,7 @@ namespace Core.UseCases
 
             colaborador.ValidateValueObjects();
 
-            if(!colaborador.IsValid)
+            if (!colaborador.IsValid)
                 throw new ArgumentException("Colaborador inválido: " + colaborador.Errors.Summary);
 
             if (await colaboradorGateway.GetByEmail(cadastroColaboradorDto.Email) != null)
@@ -74,12 +74,12 @@ namespace Core.UseCases
                 IdFuncao = (int)funcaoColaboradorEnum,
                 Email = cadastroColaboradorDto.Email,
                 Nome = cadastroColaboradorDto.Nome,
-                Senha = HashHelper.ComputeSha256Hash(cadastroColaboradorDto.Senha) 
+                Senha = HashHelper.ComputeSha256Hash(cadastroColaboradorDto.Senha)
             };
 
             return await colaboradorGateway.Insert(colaboradorDto);
         }
-    
+
         public static async Task<Colaborador?> DeleteColaborador(IColaboradorGateway colaboradorGateway, int idColaborador)
         {
             Colaborador? colaborador = await colaboradorGateway.GetById(idColaborador);

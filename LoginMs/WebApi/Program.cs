@@ -107,7 +107,7 @@ builder.Services.AddScoped<IDbConnection>(provider =>
     if (string.IsNullOrWhiteSpace(rawConnectionString))
         throw new KeyNotFoundException("Chave 'DB_CONNECTION_STRING' não encontrada.");
 
-    if(string.IsNullOrEmpty(databaseName))
+    if (string.IsNullOrEmpty(databaseName))
         throw new KeyNotFoundException("Chave 'DB_NAME' não encontrada.");
 
     // Keep existing initializer call for compatibility.
