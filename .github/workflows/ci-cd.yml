@@ -102,7 +102,7 @@ jobs:
           args: >
             -Dsonar.projectKey=goncalves-c97_fiap-tc-4-login-ms
             -Dsonar.organization=goncalves-c97
-            -Dsonar.sources=WebApi,Core
+            -Dsonar.sources=LoginMs/WebApi,LoginMs/Core
 
 
   # =========================
