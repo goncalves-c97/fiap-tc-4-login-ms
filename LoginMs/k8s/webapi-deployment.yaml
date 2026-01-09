@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-ms-webapi-deployment
+  namespace: login-ms
+  labels:
+    app: login-ms-webapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: login-ms-webapi
+  template:
+    metadata:
+      labels:
+        app: login-ms-webapi
+    spec:
+      containers:
+      - name: login-ms-webapi
+        image: goncalvesc97/fiap-tc-4-login-ms:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:5000"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+
+        # Configuração do ambiente de banco de dados 
+        - name: DB_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: login-ms-secret
+              key: DB_CONNECTION_STRING
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: login-ms-secret
+              key: DB_NAME
+
+        # Configuração da chave de autenticação da API
+        - name: API_AUTHENTICATION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: login-ms-secret
+              key: API_AUTH_TOKEN
