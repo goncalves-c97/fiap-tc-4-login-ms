@@ -99,6 +99,12 @@ jobs:
             /p:CollectCoverage=true \
             /p:CoverletOutput=./TestResults/ \
             /p:CoverletOutputFormat=opencover
+      - name: Debug coverage files
+        run: |
+          echo "=== ROOT ==="
+          ls -la
+          echo "=== TestResults ==="
+          ls -la TestResults || true
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
