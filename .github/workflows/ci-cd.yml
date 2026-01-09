@@ -97,7 +97,7 @@ jobs:
             --configuration Release \
             --no-build \
             /p:CollectCoverage=true \
-            /p:CoverletOutput=./TestResults/ \
+            /p:CoverletOutput=$(pwd)/LoginMs/TestResults/coverage \
             /p:CoverletOutputFormat=opencover
       - name: Debug coverage files
         run: |
@@ -115,7 +115,7 @@ jobs:
             -Dsonar.projectKey=goncalves-c97_fiap-tc-4-login-ms
             -Dsonar.organization=goncalves-c97
             -Dsonar.sources=LoginMs/WebApi,LoginMs/Core
-            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
+            -Dsonar.cs.opencover.reportsPaths=LoginMs/TestResults/coverage.opencover.xml
 
 
   # =========================

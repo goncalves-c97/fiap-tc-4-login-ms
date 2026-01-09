@@ -22,9 +22,9 @@ public class AutenticacaoEndpointTests
     {
         var db = new Moq.Mock<IDbConnection>().Object;
         var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
- {
- { "API_AUTHENTICATION_KEY", "0123456789ABCDEF0123456789ABCDEF" }
- }).Build();
+        {
+            { "API_AUTHENTICATION_KEY", "0123456789ABCDEF0123456789ABCDEF" }
+        }).Build();
 
         var endpoint = new AutenticacaoEndpoint(db, config);
         endpoint.ModelState.AddModelError("x", "y");
