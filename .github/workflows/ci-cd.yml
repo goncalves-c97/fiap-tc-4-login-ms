@@ -139,8 +139,9 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: LoginMs
+          file: LoginMs/Dockerfile
           push: true
           tags: |
-            goncalvesc97/fiap-tc-4-login-ms:latest
-            goncalvesc97/fiap-tc-4-login-ms:${{ github.sha }}
+              goncalvesc97/fiap-tc-4-login-ms:latest
+              goncalvesc97/fiap-tc-4-login-ms:${{ github.sha }}
