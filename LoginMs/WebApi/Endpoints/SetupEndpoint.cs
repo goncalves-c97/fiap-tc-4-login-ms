@@ -29,14 +29,6 @@ namespace WebApi.Endpoints
         }
 
         [AllowAnonymous]
-        [HttpPost("LoadBaseData")]
-        public async Task<IActionResult> LoadBaseData()
-        {
-            await FuncaoColaboradorController.CheckBaseValuesInserted(_dbConnection);
-            return Ok();
-        }
-
-        [AllowAnonymous]
         [HttpDelete("ResetClientes")]
         public async Task<IActionResult> ResetClientes()
         {
