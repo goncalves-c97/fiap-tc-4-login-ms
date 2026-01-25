@@ -111,6 +111,9 @@ jobs:
       - name: Test with coverage
         run: dotnet test LoginMs/LoginMs.sln --no-build --configuration Release --collect:"XPlat Code Coverage"
   
+      - name: Debug coverage files
+        run: find . -name "coverage.*.xml"
+        
       - name: End SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
