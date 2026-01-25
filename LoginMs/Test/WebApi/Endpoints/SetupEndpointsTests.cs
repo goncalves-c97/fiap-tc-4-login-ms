@@ -63,7 +63,7 @@ public class SetupEndpointsTests
         var result = await endpoint.SetupColaboradoresMock();
 
         Assert.IsType<OkResult>(result);
-        Assert.NotEmpty(db.Inserts);
+        Assert.NotEmpty(db.InsertAndReturnIds);
     }
 
     [Fact]
