@@ -102,7 +102,7 @@ jobs:
             /d:sonar.login="$SONAR_TOKEN" \
             /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml" \
             /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
-            /d:sonar.sources="LoginMs/LoginMs.sln" \
+            /d:sonar.sources="LoginMs" \
             /d:sonar.tests="LoginMs/tests" \
             /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
 
