@@ -101,7 +101,7 @@ jobs:
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.login="$SONAR_TOKEN" \
             /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml" \
-            /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
+            /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs" \
             /d:sonar.sources="LoginMs/Core,LoginMs/Infra.Data.SqlServer,LoginMs/WebApi" \
             /d:sonar.tests="LoginMs/Test" \
             /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
