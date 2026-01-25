@@ -85,38 +85,34 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Install SonarScanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
       - name: Restore
         run: dotnet restore LoginMs/LoginMs.sln
 
-      - name: Build
-        run: dotnet build LoginMs/LoginMs.sln --configuration Release --no-restore
-
-      - name: Test with coverage
-        run: |
-          dotnet test LoginMs/LoginMs.sln \
-            --configuration Release \
-            --no-build \
-            /p:CollectCoverage=true \
-            /p:CoverletOutput=$(pwd)/LoginMs/TestResults/coverage \
-            /p:CoverletOutputFormat=opencover
-      - name: Debug coverage files
-        run: |
-          echo "=== ROOT ==="
-          ls -la
-          echo "=== TestResults ==="
-          ls -la TestResults || true
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+      - name: Begin SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=goncalves-c97_fiap-tc-4-login-ms
-            -Dsonar.organization=goncalves-c97
-            -Dsonar.projectBaseDir=LoginMs
-            -Dsonar.sources=WebApi,Core
-            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
+        run: |
+          dotnet sonarscanner begin \
+            /k:"goncalves-c97_fiap-tc-4-login-ms" \
+            /o:"goncalves-c97" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.login="$SONAR_TOKEN" \
+            /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml" \
+            /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
+
+      - name: Build
+        run: dotnet build LoginMs/LoginMs.sln --no-restore --configuration Release
+  
+      - name: Test with coverage
+        run: dotnet test LoginMs/LoginMs.sln --no-build --configuration Release --collect:"XPlat Code Coverage"
+  
+      - name: End SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
   # =========================
   # DOCKER (só no merge)
