@@ -9,7 +9,7 @@ on:
 
 jobs:
   destroy-prod:
-    if: github.ref == 'refs/heads/main' && github.event.inputs.confirm_destroy == 'DESTROY'
+    if: github.ref == 'refs/heads/production' && github.event.inputs.confirm_destroy == 'DESTROY'
     runs-on: ubuntu-latest
 
     steps:
