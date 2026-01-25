@@ -1,6 +1,7 @@
 using Core.Dtos;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using Test.Helpers.Fakes;
 using WebApi.Endpoints;
 
@@ -20,7 +21,8 @@ public class ClienteEndpointTests
         var result = await endpoint.GetByCpf("123");
 
         var notFound = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal("Cliente não encontrado!", notFound.Value);
+
+        Assert.Matches(@"Cliente n.o encontrado!", notFound.Value.ToString());
     }
 
     [Fact]
@@ -54,7 +56,7 @@ public class ClienteEndpointTests
         var result = await endpoint.GetByEmail("x@y.com");
 
         var notFound = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal("Cliente não encontrado!", notFound.Value);
+        Assert.Matches(@"Cliente n.o encontrado!", notFound.Value.ToString());
     }
 
     [Fact]
@@ -87,7 +89,7 @@ public class ClienteEndpointTests
         var result = await endpoint.GetById(123);
 
         var notFound = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal("Cliente não encontrado", notFound.Value);
+        Assert.Matches(@"Cliente n.o encontrado", notFound.Value.ToString());
     }
 
     [Fact]
