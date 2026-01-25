@@ -1,4 +1,7 @@
-﻿using Core.Interfaces;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Core.Helpers;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Test.Helpers.Fakes;
@@ -115,5 +118,109 @@ public class SetupEndpointsTests
         var result = await endpoint.LoginAtendenteMock();
 
         Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task LoginAdministradorMock_WhenValid_ReturnsOkWithToken()
+    {
+        var db = new FakeDbConnection();
+        db.SearchFirstOrDefaultHandler = (table, where, param) =>
+        {
+            // ColaboradorUseCases hashes provided senha before querying gateway
+            // So DB comparison receives hashed senha.
+            if (table == "Colaborador" && where.Contains("email = @Email") && where.Contains("senha = @Senha"))
+                return new global::Core.Entities.Colaborador
+                {
+                    IdColaborador = 1,
+                    IdFuncao = (int)global::Core.Enums.FuncaoColaboradorEnum.Administrador,
+                    Nome = "ADMIN",
+                    Email = "administrador@fastfoodchallenge.com.br",
+                    Senha = HashHelper.ComputeSha256Hash(global::Core.Enums.FuncaoColaboradorEnum.Administrador.ToString())
+                };
+
+            return null;
+        };
+
+        var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            { "API_AUTHENTICATION_KEY", "0123456789ABCDEF0123456789ABCDEF" }
+        }).Build();
+
+        var endpoint = new SetupEndpoint(db, config);
+
+        var result = await endpoint.LoginAdministradorMock();
+
+        var ok = Assert.IsType<OkObjectResult>(result);
+        var tokenValue = ok.Value?.GetType().GetProperty("Token")?.GetValue(ok.Value) as string;
+        Assert.False(string.IsNullOrWhiteSpace(tokenValue));
+
+        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(tokenValue);
+        Assert.Contains(jwt.Claims, c => (c.Type == ClaimTypes.Email || c.Type == "email") && c.Value == "administrador@fastfoodchallenge.com.br");
+    }
+
+    [Fact]
+    public async Task LoginCozinheiroMock_WhenValid_ReturnsOkWithToken()
+    {
+        var db = new FakeDbConnection();
+        db.SearchFirstOrDefaultHandler = (table, where, param) =>
+        {
+            if (table == "Colaborador" && where.Contains("email = @Email") && where.Contains("senha = @Senha"))
+                return new global::Core.Entities.Colaborador
+                {
+                    IdColaborador = 2,
+                    IdFuncao = (int)global::Core.Enums.FuncaoColaboradorEnum.Cozinheiro,
+                    Nome = "COZINHEIRO",
+                    Email = "cozinheiro@fastfoodchallenge.com.br",
+                    Senha = HashHelper.ComputeSha256Hash(global::Core.Enums.FuncaoColaboradorEnum.Cozinheiro.ToString())
+                };
+
+            return null;
+        };
+
+        var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            { "API_AUTHENTICATION_KEY", "0123456789ABCDEF0123456789ABCDEF" }
+        }).Build();
+
+        var endpoint = new SetupEndpoint(db, config);
+
+        var result = await endpoint.LoginCozinheiroMock();
+
+        var ok = Assert.IsType<OkObjectResult>(result);
+        var tokenValue = ok.Value?.GetType().GetProperty("Token")?.GetValue(ok.Value) as string;
+        Assert.False(string.IsNullOrWhiteSpace(tokenValue));
+    }
+
+    [Fact]
+    public async Task LoginAtendenteMock_WhenValid_ReturnsOkWithToken()
+    {
+        var db = new FakeDbConnection();
+        db.SearchFirstOrDefaultHandler = (table, where, param) =>
+        {
+            if (table == "Colaborador" && where.Contains("email = @Email") && where.Contains("senha = @Senha"))
+                return new global::Core.Entities.Colaborador
+                {
+                    IdColaborador = 3,
+                    IdFuncao = (int)global::Core.Enums.FuncaoColaboradorEnum.Atendente,
+                    Nome = "ATENDENTE",
+                    Email = "atendente@fastfoodchallenge.com.br",
+                    Senha = HashHelper.ComputeSha256Hash(global::Core.Enums.FuncaoColaboradorEnum.Atendente.ToString())
+                };
+
+            return null;
+        };
+
+        var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            { "API_AUTHENTICATION_KEY", "0123456789ABCDEF0123456789ABCDEF" }
+        }).Build();
+
+        var endpoint = new SetupEndpoint(db, config);
+
+        var result = await endpoint.LoginAtendenteMock();
+
+        var ok = Assert.IsType<OkObjectResult>(result);
+        var tokenValue = ok.Value?.GetType().GetProperty("Token")?.GetValue(ok.Value) as string;
+        Assert.False(string.IsNullOrWhiteSpace(tokenValue));
     }
 }
