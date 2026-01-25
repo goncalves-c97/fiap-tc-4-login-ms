@@ -94,22 +94,13 @@ jobs:
       - name: Begin SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          dotnet sonarscanner begin \
-            /k:"goncalves-c97_fiap-tc-4-login-ms" \
-            /o:"goncalves-c97" \
-            /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.login="$SONAR_TOKEN" \
-            /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml" \
-            /d:sonar.sources="LoginMs/Core,LoginMs/Infra.Data.SqlServer,LoginMs/WebApi" \
-            /d:sonar.tests="LoginMs/Test" \
-            /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
+        run: dotnet sonarscanner begin /k:"goncalves-c97_fiap-tc-4-login-ms" /o:"goncalves-c97" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml" /d:sonar.sources="LoginMs/Core,LoginMs/Infra.Data.SqlServer,LoginMs/WebApi" /d:sonar.tests="LoginMs/Test" /d:sonar.exclusions="**/wwwroot/**,**/*.cshtml,**/Program.cs"
 
       - name: Build
         run: dotnet build LoginMs/LoginMs.sln --no-restore --configuration Release
   
       - name: Test with coverage
-        run: dotnet test LoginMs/LoginMs.sln --no-build --configuration Release --collect:"XPlat Code Coverage"
+        run: dotnet test LoginMs/LoginMs.sln --no-build --configuration Release --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=cobertura /p:UseSourceLink=true
   
       - name: Debug coverage files
         run: find . -name "coverage.*.xml"
