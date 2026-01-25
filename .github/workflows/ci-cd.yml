@@ -130,11 +130,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+            
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./LoginMs
+          file: ./LoginMs/Dockerfile
           push: true
           tags: |
             goncalvesc97/fiap-tc-4-login-ms:latest
