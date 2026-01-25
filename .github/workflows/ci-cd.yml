@@ -73,7 +73,7 @@ jobs:
   # =========================
   # API (.NET + SONAR)
   # =========================
-  api:
+  api-dotnet-plus-sonar:
     runs-on: ubuntu-latest
 
     steps:
