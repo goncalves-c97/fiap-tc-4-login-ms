@@ -159,13 +159,10 @@ public abstract class ValidatorClass
             Errors.RegisterError(GenericErrors.ValueZeroError, $"'{propertyName}' não pode ser 0", propertyName);
     }
 
-    protected void PositiveValueValidation(string propertyName, double value, bool validateZero = false)
+    protected void PositiveValueValidation(string propertyName, double value)
     {
         if (!double.IsPositive(value))
             Errors.RegisterError(GenericErrors.NegativeValueError, $"'{propertyName}' não pode ser negativo(a).", propertyName);
-
-        if (validateZero && value == 0)
-            Errors.RegisterError(GenericErrors.ValueZeroError, $"'{propertyName}' não pode ser 0", propertyName);
     }
 
     protected void NotEmptyStringValidation(string propertyName, string? propertyValue)
